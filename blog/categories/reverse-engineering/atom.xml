@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Reverse Engineering | Frickin Laser Beams]]></title>
   <link href="frickinlaserbeams.co/blog/categories/reverse-engineering/atom.xml" rel="self"/>
   <link href="frickinlaserbeams.co/"/>
-  <updated>2014-10-12T23:25:21+01:00</updated>
+  <updated>2014-10-13T00:04:06+01:00</updated>
   <id>frickinlaserbeams.co/</id>
   <author>
     <name><![CDATA[Frickin Laser Beams]]></name>
@@ -22,7 +22,7 @@
 
 <p>To help build some experience of reversing C++ and to re-enforce my understanding of C++ compilation, I&rsquo;ve been doing some exercises to see how different C++ constructs appear following disassembly and decompilation in <a href="http://www.hex-rays.com/products/ida">IDA</a>. This series of posts covers these exercises and hopefully provides some benefit to others who may be interested in this topic.</p>
 
-<p>Note that I&rsquo;m using IDA with the <a href="http://www.hex-rays.com/products/decompiler/index.html">Hex-Rays Decompiler</a> for these examples. If you don&rsquo;t already have a copy of IDA, you can get an evaluation copy of IDA from the <a href="http://www.hex-rays.com">Hex-Rays website</a> (or use the free version), but you&rsquo;ll have to purchase the decompiler as no evaluation is offered.</p>
+<p>Note that I&rsquo;m using IDA with the <a href="http://www.hex-rays.com/products/decompiler/index.shtml">Hex-Rays Decompiler</a> for these examples. If you don&rsquo;t already have a copy of IDA, you can get an evaluation copy of IDA from the <a href="http://www.hex-rays.com">Hex-Rays website</a> (or use the free version), but you&rsquo;ll have to purchase the decompiler as no evaluation is offered.</p>
 
 <p>So to start with, let&rsquo;s look at basic object contruction with the following example code:</p>
 
