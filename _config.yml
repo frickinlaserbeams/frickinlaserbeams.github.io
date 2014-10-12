@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://frickinlaserbeams.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+url: frickinlaserbeams.co
+title: Frickin Laser Beams
+subtitle: Software development and security research
+author: Frickin Laser Beams
 simple_search: https://www.google.com/search
 description:
 
@@ -64,13 +64,13 @@ default_asides: [asides/recent_posts.html, asides/github.html, asides/delicious.
 # ----------------------- #
 
 # Github repositories
-github_user:
-github_repo_count: 0
-github_show_profile_link: true
-github_skip_forks: true
+# github_user: frickinlaserbeams
+# github_repo_count: 0
+#github_show_profile_link: true
+# github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: flaserbeams
 twitter_tweet_button: true
 
 # Google +1
