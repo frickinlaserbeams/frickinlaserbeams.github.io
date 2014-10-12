@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: C++ | Frickin Laser Beams]]></title>
+  <link href="frickinlaserbeams.co/blog/categories/c-plus-plus/atom.xml" rel="self"/>
+  <link href="frickinlaserbeams.co/"/>
+  <updated>2014-10-12T23:25:21+01:00</updated>
+  <id>frickinlaserbeams.co/</id>
+  <author>
+    <name><![CDATA[Frickin Laser Beams]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Reversing C++ - Part 1 Basic Construction]]></title>
+    <link href="frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/"/>
+    <updated>2014-10-10T23:27:26+01:00</updated>
+    <id>frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve been developing applications in C++ for around 10 years but now find myself on the opposite end; reversing them. With some previous experience reversing C code, I can attest that C++ is an entirely different beast and brings an entirely new set of challenges.</p>
+
+<p>To help build some experience of reversing C++ and to re-enforce my understanding of C++ compilation, I&rsquo;ve been doing some exercises to see how different C++ constructs appear following disassembly and decompilation in <a href="http://www.hex-rays.com/products/ida">IDA</a>. This series of posts covers these exercises and hopefully provides some benefit to others who may be interested in this topic.</p>
+
+<p>Note that I&rsquo;m using IDA with the <a href="http://www.hex-rays.com/products/decompiler/index.html">Hex-Rays Decompiler</a> for these examples. If you don&rsquo;t already have a copy of IDA, you can get an evaluation copy of IDA from the <a href="http://www.hex-rays.com">Hex-Rays website</a> (or use the free version), but you&rsquo;ll have to purchase the decompiler as no evaluation is offered.</p>
+
+<p>So to start with, let&rsquo;s look at basic object contruction with the following example code:</p>
+
+<pre><code class="cpp Basic Construction Example">class TestClass
+{
+public:
+    TestClass():
+        mValueA(0)
+        mValueB(0)
+    {
+    }
+
+private:
+    int mValueA;
+    int mValueB;
+};
+
+int main()
+{
+    TestClass testClassA;
+    return 0;
+}
+</code></pre>
+
+<p>Working on a 32-bit Linux box I compile and strip the binary as shown below. Note that we strip the binary with the assumption that &lsquo;real&rsquo; applications will also have their symbols stripped.</p>
+
+<pre><code class="bash">$ g++ basicConstructionExample.cpp -o basicConstructionExample 
+$ strip -s basicContructionExample
+</code></pre>
+
+<p>If we now open the resulting binary in IDA and hit F5 we see that our code look something like this:</p>
+
+<p><img src="/images/reversing/part-1-4.png"></p>
+
+<p>The output from the decompiler is pretty good, but not quite what we see in the original source code.</p>
+
+<ol>
+<li>The function and variable names are incorrect.</li>
+<li>The <code>TestClass</code> object has been identified as an <code>int</code> type in both the <code>main</code> function and the <code>TestClass</code> constructor.</li>
+<li>The function signature of the <code>TestClass</code> constructor has been identified as returning an <code>int</code> value rather than having a <code>void</code> return type.</li>
+<li>Declaration of the <code>TestClass</code> object is separate from construction of the object.</li>
+</ol>
+
+
+<p>Some of these differences we would expect, such as the missing function names (we stipped all these) and the fact that object declaration and initialisation are separate. However, this is not something which we see explicitly when developing the code in the first place. Luckily, IDA provides us with tools that we can use to fix up some of these differences and bring the code back to resembling what we would see when developing it.</p>
+
+<p>Firstly, we can update the function and variable names to something more readable, by simply highlighting the existing name in the listing and hitting <code>n</code>.</p>
+
+<p>Next, we can address the <code>TestClass</code> type. Binaries do not contain explicit data on how structures and classes are composed, so it&rsquo;s no surprise that IDA doesn&rsquo;t provide us with this information either. As such, we need to tell IDA about the composition of the class ourselves. This we can do using the &lsquo;Structures&rsquo; subview which can be accessed from the &lsquo;View&rsquo; menu.</p>
+
+<p><img src="/images/reversing/part-1-1.png"></p>
+
+<p>From here we can create a new structure by pressing <code>Insert</code> (<code>i</code> on OSX) from within the &lsquo;Structures&rsquo; view. As we already know the name or our structure we can go ahead an name it TestClass, but when reversing unknown structures it may be wise to leave renaming of the structure until it&rsquo;s purpose is known.</p>
+
+<p>Once the structure is created, we can add new members to the with the <code>d</code> (data), <code>a</code> (ascii) or <code>*</code> (array) keys. As shown in the constructor, code our class contains two dword members, one at <code>*a1</code> and another at <code>*(a1 + 4)</code>, so we can go ahead and add two <code>dd</code> (dword) members and rename them with <code>n</code>. Here&rsquo;s the finished product:</p>
+
+<p><img src="/images/reversing/part-1-2.png"></p>
+
+<p>Now that we have our class structure defined, we can update the references in the decompiler output with the correct types by highlighting the variable, right clicking, selecting &lsquo;Convert to struct &rsquo; and then &lsquo;TestClass&rsquo; from the list in the subsequent pop-up box:</p>
+
+<p><img src="/images/reversing/part-1-3.png"></p>
+
+<p>Note that the value <code>v0</code> in <code>main</code> is not actually a pointer, so we can change this to a <code>TestClass</code> instance manually by right clicking on the variable, selecting &lsquo;Set lval type&rsquo; and providing the correct type.</p>
+
+<p>The final step is to change the return type of the construtor, which can be acheived by highlighting the function name and hitting <code>Y</code>.</p>
+
+<p>With all these changes made, the final output view looks much more familiar:</p>
+
+<p><img src="/images/reversing/part-1-5.png"></p>
+
+<p>One thing we haven&rsquo;t covered here is the creation of objects on the heap. Actually, the output from the decompiler is exactly the same, bar the use of <code>operator new</code> for the allocation of the memory on the heap (plus the fact that <code>v0</code> is a pointer as identified by the use of <code>operator new</code>) and the use of <code>operator delete</code> for de-allocation.</p>
+
+<p><img src="/images/reversing/part-1-6.png"></p>
+
+<p>That&rsquo;s pretty much it for basic object construction. In the next part we&rsquo;ll take a look at destructors and member functions.</p>
+]]></content>
+  </entry>
+  
+</feed>
