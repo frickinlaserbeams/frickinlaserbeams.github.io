@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Decompilation | Frickin Laser Beams]]></title>
   <link href="frickinlaserbeams.co/blog/categories/decompilation/atom.xml" rel="self"/>
   <link href="frickinlaserbeams.co/"/>
-  <updated>2014-10-13T00:04:06+01:00</updated>
+  <updated>2014-10-13T00:24:26+01:00</updated>
   <id>frickinlaserbeams.co/</id>
   <author>
     <name><![CDATA[Frickin Laser Beams]]></name>
@@ -24,7 +24,7 @@
 
 <p>Note that I&rsquo;m using IDA with the <a href="http://www.hex-rays.com/products/decompiler/index.shtml">Hex-Rays Decompiler</a> for these examples. If you don&rsquo;t already have a copy of IDA, you can get an evaluation copy of IDA from the <a href="http://www.hex-rays.com">Hex-Rays website</a> (or use the free version), but you&rsquo;ll have to purchase the decompiler as no evaluation is offered.</p>
 
-<p>So to start with, let&rsquo;s look at basic object contruction with the following example code:</p>
+<p>So to start with, let&rsquo;s look at basic object construction with the following example code:</p>
 
 <pre><code class="cpp Basic Construction Example">class TestClass
 {
