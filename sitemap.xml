@@ -3,6 +3,14 @@
   
   
   <url>
+    <loc>frickinlaserbeams.co/blog/2014/11/08/reversing-c-plus-plus-part-2-copy-constructors-destructors-and-assignment-operators/</loc>
+    
+    <lastmod>2014-11-08T22:33:55+00:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
     <loc>frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/</loc>
     
     <lastmod>2014-10-10T23:27:26+01:00</lastmod>
@@ -13,56 +21,56 @@
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/components.html</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/css.html</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/customize.html</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/getting-started.html</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/blog/archives/</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>frickinlaserbeams.co/javascripts/libs/bootstrap-3.0.0/javascript.html</loc>
-    <lastmod>2014-10-13T09:23:04+01:00</lastmod>
+    <lastmod>2014-11-09T00:22:21+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>

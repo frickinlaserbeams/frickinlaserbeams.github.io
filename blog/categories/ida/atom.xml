@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ida | Frickin Laser Beams]]></title>
   <link href="frickinlaserbeams.co/blog/categories/ida/atom.xml" rel="self"/>
   <link href="frickinlaserbeams.co/"/>
-  <updated>2014-10-13T09:23:04+01:00</updated>
+  <updated>2014-11-09T00:22:21+00:00</updated>
   <id>frickinlaserbeams.co/</id>
   <author>
     <name><![CDATA[Frickin Laser Beams]]></name>
@@ -97,7 +97,7 @@ $ strip -s basicContructionExample
 
 <p><img src="/images/reversing/part-1-6.png"></p>
 
-<p>That&rsquo;s pretty much it for basic object construction. In the next part we&rsquo;ll take a look at destructors and member functions.</p>
+<p>That&rsquo;s pretty much it for basic object construction. In the next part we&rsquo;ll take a look at copy constructors, destructors and assignment operators.</p>
 ]]></content>
   </entry>
   

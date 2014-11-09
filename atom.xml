@@ -4,7 +4,7 @@
   <title><![CDATA[Frickin Laser Beams]]></title>
   <link href="frickinlaserbeams.co/atom.xml" rel="self"/>
   <link href="frickinlaserbeams.co/"/>
-  <updated>2014-10-13T09:23:04+01:00</updated>
+  <updated>2014-11-09T00:22:21+00:00</updated>
   <id>frickinlaserbeams.co/</id>
   <author>
     <name><![CDATA[Frickin Laser Beams]]></name>
@@ -12,6 +12,98 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Reversing C++ - Part 2 Copy Constructors, Destructors and Assignment Operators]]></title>
+    <link href="frickinlaserbeams.co/blog/2014/11/08/reversing-c-plus-plus-part-2-copy-constructors-destructors-and-assignment-operators/"/>
+    <updated>2014-11-08T22:33:55+00:00</updated>
+    <id>frickinlaserbeams.co/blog/2014/11/08/reversing-c-plus-plus-part-2-copy-constructors-destructors-and-assignment-operators</id>
+    <content type="html"><![CDATA[<p>Welcome to part 2 of this series on basic C++ reversing with IDA.</p>
+
+<p>In <a href="frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/">part 1</a> we looked at basic object construction. In this post we will take a brief look at copy constructors, destructors and assignment operators, before moving onto inheritance and virtual methods in part 3.</p>
+
+<p>Lets start by looking at the previous example where we saw no copy constructor, destructor or assignment operator:</p>
+
+<p><img src="frickinlaserbeams.co/images/reversing/part-1-5.png"></p>
+
+<p>It&rsquo;s fairly obvious why we don&rsquo;t see a copy constructor or assignment operator as we haven&rsquo;t defined them ourselves and the compiler hasn&rsquo;t needed to define default versions for us as we&rsquo;ve not carried out any copying or assignment. What should happen though, is implicit destruction of our object as it goes out of scope. So why don&rsquo;t we see any object destruction? Why hasn&rsquo;t the compiler generated a default constructor? The reason is that all of the member variables are primative types. As primitage types do not require a destructor, neither does out class. If, however, we were to add a new member variable that did require destruction then a default destructor would be generated.</p>
+
+<p>Let&rsquo;s prompt the compiler to generate a default copy constructor, destructor and assignment operator with the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="cp">#include &lt;string&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TestClass</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="k">public</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">TestClass</span><span class="p">()</span><span class="o">:</span>
+</span><span class='line'>        <span class="n">mStringA</span><span class="p">(),</span>
+</span><span class='line'>        <span class="n">mValueA</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
+</span><span class='line'>        <span class="n">mValueB</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">private</span><span class="o">:</span>
+</span><span class='line'>    <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">mStringA</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">mValueA</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">mValueB</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="n">TestClass</span><span class="o">*</span> <span class="n">testClassA</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TestClass</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">TestClass</span> <span class="n">testClassB</span> <span class="o">=</span> <span class="o">*</span><span class="n">testClassA</span><span class="p">;</span>
+</span><span class='line'>    <span class="o">*</span><span class="n">testClassA</span> <span class="o">=</span> <span class="n">testClassB</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">delete</span> <span class="n">testClassA</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we open the resulting stripped binary (see <a href="frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/">previous post</a>) the decompiler produces the following:</p>
+
+<p><img src="frickinlaserbeams.co/images/reversing/part-2-1.png"></p>
+
+<p>Here we see the main function (<code>sub_80486FC()</code>) followed by the constructor (<code>sub_80487A6()</code>), copy constructor (<code>sub_80497CE()</code>), assignment operator (<code>sub_8048814()</code>) and destructor (<code>sub_8048800()</code>). Note that we have one object created on the heap with the <code>new()</code> operator and that the compiler adds a check on line 14 of <code>main()</code> to ensure that the object is valid before calling the destructor and delete operators.</p>
+
+<p>Following the addition of further type information and some renaming as described in <a href="frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/">part 1</a> we can come up with something more readable (we don&rsquo;t define the string type, but the offsets of the remaining variables tell us that it&rsquo;s the size of the dword, so we set it as such in the structure definition). In addition to the steps described in <a href="frickinlaserbeams.co/blog/2014/10/10/reversing-c-plus-plus-part-1-basic-construction/">part 1</a> we can remove the temporary valiables from the decompiler output by right clicking the variable and selecting <code>Map to another variable =</code>, resulting the in the following (to rename the destructor using the <code>~</code> character you may also need to upaate the <code>NameChars</code> variable in the <code>ida.cfg</code> configuration file):</p>
+
+<p><img src="frickinlaserbeams.co/images/reversing/part-2-2.png"></p>
+
+<p>Adding custom copy constructors, destructors and assignment operators has no additional affect on the compilation or output from IDA other than the changes to the respective implementations.</p>
+
+<p>In the next installment we will look at inheritance and virtual functions.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Reversing C++ - Part 1 Basic Construction]]></title>
@@ -120,7 +212,7 @@
 
 <p><img src="frickinlaserbeams.co/images/reversing/part-1-6.png"></p>
 
-<p>That&rsquo;s pretty much it for basic object construction. In the next part we&rsquo;ll take a look at destructors and member functions.</p>
+<p>That&rsquo;s pretty much it for basic object construction. In the next part we&rsquo;ll take a look at copy constructors, destructors and assignment operators.</p>
 ]]></content>
   </entry>
   
