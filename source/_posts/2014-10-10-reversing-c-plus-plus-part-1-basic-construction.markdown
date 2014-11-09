@@ -85,4 +85,4 @@ One thing we haven't covered here is the creation of objects on the heap. Actual
 
 {% img /images/reversing/part-1-6.png %}
 
-That's pretty much it for basic object construction. In the next part we'll take a look at destructors and member functions.
+That's pretty much it for basic object construction. In the next part we'll take a look at copy constructors, destructors and assignment operators.
